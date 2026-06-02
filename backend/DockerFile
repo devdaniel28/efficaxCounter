@@ -1,0 +1,31 @@
+#* Build stage
+FROM golang:1.22-alpine AS builder
+
+RUN mkdir /app
+WORKDIR /app
+
+#* Instalar dependências
+COPY go.mod go.sum ./
+RUN go mod download
+
+#* Copiar código fonte
+COPY . .
+
+#* Compilar aplicação
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+
+#* Final stage
+FROM alpine:latest
+
+WORKDIR /app
+
+#* Instalar certificados CA para HTTPS
+RUN apk --no-cache add ca-certificates
+
+#* Copiar binário
+COPY --from=builder /app/main .
+
+EXPOSE 8080
+
+#* Executar aplicação
+CMD ["./main"]
