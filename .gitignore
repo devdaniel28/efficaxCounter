@@ -1,15 +1,25 @@
-#* Docker - file backend
+#* Docker - File backend
 /backend/docker-compose.yml
 /backend/docker-compose.*.yml
-/backend/Dockerfile
 /backend/.docker/
 
-#* Env
-.env
-.env.local
-.env.*.local
-.env.development
-.env.production
-.env.test
-.env.staging
+#* Env Backend
+/backend/.env
+/backend/.env.local
+/backend/.env.*.local
+/backend/.env.development
+/backend/.env.production
+/backend/.env.test
+/backend/.env.staging
+
+#* Env Root
 *.env
+
+#* Env Frontend
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.*.local
+/frontend/.env.development
+/frontend/.env.production
+/frontend/.env.test
+/frontend/.env.staging

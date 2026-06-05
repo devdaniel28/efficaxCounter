@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
@@ -14,7 +16,7 @@ func ConnectDB() (*sql.DB, error) {
 	if dbURL == "" {
 		return nil, fmt.Errorf("Error: Env database url null \n")
 	}
- 
+
 	var err error
 
 	db, err = sql.Open("postgres", dbURL)
@@ -25,7 +27,7 @@ func ConnectDB() (*sql.DB, error) {
 	if err = db.Ping(); err != nil {
 		db.Close()
 		return nil, fmt.Errorf("Error: Ping error, database closed: %w \n", err)
-		
+
 	}
 
 	return db, nil

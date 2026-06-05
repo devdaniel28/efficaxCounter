@@ -3,19 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"time"
+	"log"
 
 	"efficaxcounter/cmd/database"
+	"efficaxcounter/cmd/router"
 
 	"github.com/gin-gonic/gin"
-)
 
-type User struct {
-	Id      int       `json:"id"`
-	Name    string    `json:"name"`
-	Email   string    `json:"email"`
-	CreatAt time.Time `json:"created_at"`
-}
+	_ "github.com/lib/pq"
+)
 
 var db *sql.DB
 
@@ -23,10 +19,13 @@ func main() {
 	var err error
 	db, err = database.ConnectDB()
 	if err != nil {
-
+		log.Fatal("Failed connect to database ", err)
 	}
-
 	defer db.Close()
+
+	if err = db.Ping(); err != nil {
+		log.Fatal("Ping Db falied ", err)
+	}
 
 	serve := gin.Default()
 	serve.GET("/", func(ctx *gin.Context) {
@@ -36,6 +35,8 @@ func main() {
 			"code":   200,
 		})
 	})
+
+	router.Users(&serve.RouterGroup, db)
 
 	serve.Run(":8000")
 	fmt.Println("Servidor na Porta 8000")
