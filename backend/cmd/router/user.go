@@ -62,4 +62,41 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 		})
 	
 	})
+
+	userGroup.GET("/list", func(ctx *gin.Context) {
+		rows, err := db.Query("SELECT id, name, email, created_at FROM ecounter.users")
+
+		if err != nil {
+			ctx.JSON(500, gin.H{
+				"error": "Error retrieving data: " + err.Error(),
+			})
+			return
+		}
+
+		var user []User
+
+		for rows.Next() {
+			var users User
+			err := rows.Scan(&users.Id, &users.Name, &users.Email, &users.CreatAt)
+			if err != nil {
+				ctx.JSON(500, gin.H{
+					"error": "Error retrieving data: " + err.Error(),
+				})
+				return
+			}
+			user = append(user, users)
+		}
+
+		if err = rows.Err(); err != nil {
+			ctx.JSON(500, gin.H{
+				"error": "Error retrieving data: " + err.Error(),
+			})
+			return
+		}
+
+		ctx.JSON(200, gin.H{
+			"users": user,
+		})
+
+	})
 }
