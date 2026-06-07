@@ -37,6 +37,7 @@ func main() {
 	})
 
 	router.Users(&serve.RouterGroup, db)
+	router.Counters(&serve.RouterGroup, db)
 
 	serve.Run(":8000")
 	fmt.Println("Servidor na Porta 8000")

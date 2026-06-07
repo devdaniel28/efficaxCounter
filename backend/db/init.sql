@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS ecounter.users (
 CREATE TABLE IF NOT EXISTS ecounter.quotes (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    quote INT
+    quote INT,
+    userid INT REFERENCES ecounter.users(id)
 );

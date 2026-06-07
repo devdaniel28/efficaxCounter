@@ -3,6 +3,7 @@ package router
 import (
 	"database/sql"
 	"efficaxcounter/cmd/middleware"
+	"efficaxcounter/cmd/models"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -10,19 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type User struct {
-	Id      int       `json:"id"`
-	Name    string    `json:"name"`
-	Email   string    `json:"email"`
-	CreatAt time.Time `json:"created_at"`
-}
-
 func Users(rtr *gin.RouterGroup, db *sql.DB) {
 	userGroup := rtr.Group("/user")
 	userGroup.Use(middleware.Authrequired())
 
 	userGroup.POST("/", func(ctx *gin.Context) {
-		typeUser := User{}
+		typeUser := models.User{}
 		err := json.NewDecoder(ctx.Request.Body).Decode(&typeUser)
 
 		if err != nil {
@@ -73,10 +67,10 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 			return
 		}
 
-		var user []User
+		var user []models.User
 
 		for rows.Next() {
-			var users User
+			var users models.User
 			err := rows.Scan(&users.Id, &users.Name, &users.Email, &users.CreatAt)
 			if err != nil {
 				ctx.JSON(500, gin.H{
