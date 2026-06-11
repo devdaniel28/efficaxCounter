@@ -1,29 +1,40 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Krona_One, Space_Mono} from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import Header from "@/components/ui/Header/Header";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  weight: '400',
+  variable: '--font-space-mono',
+  subsets: ['latin'],
+})
+
+const kronaOne = Krona_One({
+  weight: '400',
+  variable: '--font-krona-one',
+  subsets: ["latin"]
+})
+
+const geistSans = Geist({
+  weight: '400',
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
 export const metadata = {
   title: "Efficax Counter",
-  description: "",
+  description: "A simple counter of numbers. - Create by dvcDaniel.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${kronaOne.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body>
-        {children}
+         <Header/>
+          {children}
       </body>
     </html>
   );

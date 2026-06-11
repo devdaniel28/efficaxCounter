@@ -1,7 +1,9 @@
+import CreateQuote from "@/components/layout/CreateQuote/CreateQuote";
+
 export default function Home() {
   return (
     <>
-      <h1>Efficax Counter</h1>
+       <CreateQuote/>
     </>
   );
 }

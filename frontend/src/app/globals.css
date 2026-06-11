@@ -1,10 +1,6 @@
-@import "tailwindcss";
-
-:root {
-
+body {
+    background: #171010;
+    color: #fff;
+    margin: 0;
+    padding: 0;
 }
-
-@theme inline {
-  
-}
-
