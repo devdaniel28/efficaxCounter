@@ -1,8 +1,8 @@
 .navitem {
     text-decoration: none;
+    text-shadow: 2.5px 4px #000;
     color: #fff;
     
-    font-family: 'Space Mono', sans-serif;
     font-weight: 500;
     font-size: 16pt;
 

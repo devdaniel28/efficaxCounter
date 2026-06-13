@@ -1,0 +1,36 @@
+.createquote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    background: #2B2B2B;
+    box-shadow: #000 2.5px 5px;
+
+    text-decoration: none;
+    color: #fff;
+
+    margin: 1rem 10rem;
+    padding: 1.5rem;
+
+    border-radius: 20px;
+    box-sizing: border-box;
+
+    transition: all 0.5s ease-in;
+}
+
+.createquote:hover {
+    transform: scale(1.02);
+}
+
+.createquote svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.createquote h5 {
+    font-size: 16pt;
+    font-weight: 800;
+
+    margin: 0;
+}

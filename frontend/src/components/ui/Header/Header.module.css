@@ -8,15 +8,24 @@
     padding: 1.2rem;
 }
 
+.header a {
+    color: #fff;
+}
+
 .header svg {
     width: 4rem;
     height: 4rem;
+
+    filter: drop-shadow( 2.5px 3px #ffa500);
 }
 
 .header h1 {
     font-family: 'Krona One', 'Space Mono';
     font-size: 32pt;    
     margin: 0;
+    user-select: none;
+
+    text-shadow: 2.5px 4px #000;
 
     flex-grow: 0.8;
 }

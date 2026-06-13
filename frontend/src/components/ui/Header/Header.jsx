@@ -1,11 +1,14 @@
 const style = require('./Header.module.css')
 import { Binary } from 'lucide-react'
 import NavItem from '../NavItem/Navitem'
+import Link from 'next/link'
 
 export default function Header() {
     return (
         <header className={style.header}>
-                <Binary/>
+                <Link href='/'>
+                  <Binary/>
+                </Link>
                   <h1>Efficax Counter</h1>
                     <nav>
                         <NavItem link='' name='Home' />
