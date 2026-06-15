@@ -2,6 +2,7 @@ const style = require('./Header.module.css')
 import { Binary } from 'lucide-react'
 import NavItem from '../NavItem/Navitem'
 import Link from 'next/link'
+import LoginButtom from '@/components/layout/LoginButtom/LoginButtom'
 
 export default function Header() {
     return (
@@ -13,6 +14,7 @@ export default function Header() {
                     <nav>
                         <NavItem link='' name='Home' />
                         <NavItem link='config' name='Config' />
+                        <LoginButtom />
                     </nav>
         </header>
     )
