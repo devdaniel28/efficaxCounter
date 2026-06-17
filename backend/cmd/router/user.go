@@ -21,29 +21,44 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 
 		if err != nil {
 			ctx.JSON(400, gin.H{
-				"error": "Invalid Request",
+				"error": "Invalid Request" + err.Error(),
 			})
 			return
 		}
 
-		if typeUser.Name == "" || typeUser.Email == "" {
+		if typeUser.Name == "" || typeUser.Email == "" || typeUser.Password == ""{
 			ctx.JSON(400, gin.H{
-				"error": "Name and email are required",
+				"error": "Name, email and Password are required",
+			})
+			return
+		}
+
+		hashedPassword, err := middleware.HashPassword(typeUser.Password)
+		if err != nil {
+			ctx.JSON(500, gin.H{
+				 "error": "Failed to process password",
 			})
 			return
 		}
 
 		var userId int
 		err = db.QueryRow(
-			"INSERT INTO ecounter.users (name, email) VALUES ($1, $2) RETURNING id",
-			typeUser.Name, typeUser.Email,
+			"INSERT INTO ecounter.users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
+			typeUser.Name, typeUser.Email, hashedPassword,
 		).Scan(&userId)
 
 		if err != nil {
 			fmt.Println("Serve error: ", err)
 			ctx.JSON(500, gin.H{
-				"error": "Failed to create user",
-				"code": 500,
+				"error": "Failed to create user" + err.Error(),
+			})
+			return
+		}
+
+		token, err := middleware.GerenerateJwt(userId, typeUser.Email)
+		if err != nil {
+			ctx.JSON(500, gin.H{
+				"error": "Failed to generate authentication token" + err.Error(),
 			})
 			return
 		}
@@ -53,12 +68,13 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 		
 		ctx.JSON(201, gin.H{
 			"user": typeUser,
+			"token": token,
 		})
 	
 	})
 
 	userGroup.GET("/list", func(ctx *gin.Context) {
-		rows, err := db.Query("SELECT id, name, email, created_at FROM ecounter.users")
+		rows, err := db.Query("SELECT id, name, email, password, created_at FROM ecounter.users")
 
 		if err != nil {
 			ctx.JSON(500, gin.H{
@@ -71,7 +87,7 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 
 		for rows.Next() {
 			var users models.User
-			err := rows.Scan(&users.Id, &users.Name, &users.Email, &users.CreatAt)
+			err := rows.Scan(&users.Id, &users.Name, &users.Email, &users.Password, &users.CreatAt)
 			if err != nil {
 				ctx.JSON(500, gin.H{
 					"error": "Error retrieving data: " + err.Error(),
@@ -79,7 +95,7 @@ func Users(rtr *gin.RouterGroup, db *sql.DB) {
 				return
 			}
 			user = append(user, users)
-		}
+		}	
 
 		if err = rows.Err(); err != nil {
 			ctx.JSON(500, gin.H{

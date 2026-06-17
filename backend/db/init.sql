@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS ecounter.users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(120) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 --* Tabela das Contagens 
 CREATE TABLE IF NOT EXISTS ecounter.quotes (
