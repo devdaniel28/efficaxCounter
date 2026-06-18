@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function LoginButtom() {
     return (
-        <Link href='/login' className={style.login}>
+        <Link href='/auth' className={style.login}>
             <span>Entrar</span>
         </Link>
     )
