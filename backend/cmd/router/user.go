@@ -8,12 +8,23 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func Users(rtr *gin.RouterGroup, db *sql.DB) {
 	userGroup := rtr.Group("/user")
 	userGroup.Use(middleware.Authrequired())
+
+	userGroup.Use(cors.Default())
+	userGroup.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "Key"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+		MaxAge: 12 * time.Hour,
+	}))
 
 	userGroup.POST("/", func(ctx *gin.Context) {
 		typeUser := models.User{}

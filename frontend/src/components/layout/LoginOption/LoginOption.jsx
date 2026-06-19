@@ -1,6 +1,6 @@
 const style = require('./LoginOption.module.css')
 
-export default function LoginOption({name, label, type, maxText, placeH, formValue}) {
+export default function LoginOption({name, label, type, maxText, placeH, formValue, changeOn}) {
     const labelText = `${label}:`
     const nameForm = String(name)
     const inputType = String(type)
@@ -17,6 +17,7 @@ export default function LoginOption({name, label, type, maxText, placeH, formVal
                 maxLength={textMax} 
                 placeholder={placeHolder}
                 value={formValue}
+                onChange={changeOn}
                 required 
             />
         </span>
